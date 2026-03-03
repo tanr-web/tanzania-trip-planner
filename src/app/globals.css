@@ -15,8 +15,8 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: #111111;
+    --foreground: #f0ede8;
   }
 }
 
@@ -24,4 +24,54 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Dark mode — prose article readability */
+@media (prefers-color-scheme: dark) {
+  .prose {
+    color: #e8e3db !important;
+  }
+  .prose h2,
+  .prose h3,
+  .prose h4 {
+    color: #f5f0e8 !important;
+  }
+  .prose strong {
+    color: #f5f0e8 !important;
+  }
+  .prose p,
+  .prose li {
+    color: #d6cfc4 !important;
+  }
+  .prose a {
+    color: #f59e0b !important;
+  }
+  .prose table {
+    border-collapse: collapse;
+    width: 100%;
+  }
+  .prose th {
+    background: #1e1e1e;
+    color: #f5f0e8 !important;
+    border: 1px solid #333;
+    padding: 0.6rem 0.875rem;
+    text-align: left;
+    font-weight: 600;
+  }
+  .prose td {
+    border: 1px solid #2a2a2a;
+    padding: 0.55rem 0.875rem;
+    color: #d6cfc4 !important;
+    vertical-align: top;
+  }
+  .prose tr:nth-child(even) td {
+    background: #181818;
+  }
+  .prose li::marker {
+    color: #f59e0b;
+  }
+  /* UI text that uses stone-500/400/600 — boost visibility */
+  .text-stone-500 { color: #b8b0a5 !important; }
+  .text-stone-400 { color: #a09890 !important; }
+  .text-stone-600 { color: #c8c0b4 !important; }
 }
