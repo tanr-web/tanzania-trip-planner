@@ -148,8 +148,8 @@ export default async function BlogPostPage({ params }: Props) {
               <Clock className="w-4 h-4" />{a.readingTime} min read
             </span>
           )}
-          {!isStatic && sanityArticle?.region?.length > 0 && (
-            <span className="px-3 py-1 bg-stone-100 text-stone-600 rounded-full text-xs">{sanityArticle.region[0].name}</span>
+          {!isStatic && (sanityArticle?.region?.length ?? 0) > 0 && (
+            <span className="px-3 py-1 bg-stone-100 text-stone-600 rounded-full text-xs">{sanityArticle!.region[0].name}</span>
           )}
         </div>
 
