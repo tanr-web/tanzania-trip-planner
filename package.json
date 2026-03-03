@@ -12,6 +12,7 @@
     "@sanity/client": "^7.16.0",
     "@sanity/image-url": "^2.0.3",
     "@supabase/supabase-js": "^2.98.0",
+    "@tailwindcss/typography": "^0.5.19",
     "@upstash/ratelimit": "^2.0.8",
     "@upstash/redis": "^1.36.3",
     "algoliasearch": "^5.49.1",

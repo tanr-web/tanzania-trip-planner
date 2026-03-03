@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { Clock, Calendar, Tag, ArrowLeft } from "lucide-react";
 import { getArticle, getAllArticleSlugs } from "@/lib/sanity";
+import { getStaticArticle, getAllStaticArticles, StaticArticle } from "@/lib/static-articles";
 import { formatDate } from "@/lib/utils";
 import type { Article } from "@/types";
 
@@ -13,54 +14,87 @@ interface Props {
 }
 
 export async function generateStaticParams() {
+  const params: { slug: string }[] = [];
+  // Static articles always available
+  getAllStaticArticles().forEach((a) => params.push({ slug: a.slug }));
+  // Sanity articles if configured
   try {
     const slugs = await getAllArticleSlugs();
-    return slugs.map((s) => ({ slug: s.slug }));
+    slugs.forEach((s) => {
+      if (!params.find((p) => p.slug === s.slug)) params.push({ slug: s.slug });
+    });
   } catch {
-    return [];
+    // Sanity not configured
   }
+  return params;
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
+  // Try Sanity first
   try {
     const article: Article = await getArticle(slug);
-    if (!article) return { title: "Article Not Found" };
-    return {
-      title: article.seoTitle ?? article.title,
-      description: article.seoDescription ?? article.excerpt,
-      openGraph: {
+    if (article) {
+      return {
         title: article.seoTitle ?? article.title,
         description: article.seoDescription ?? article.excerpt,
+        openGraph: {
+          title: article.seoTitle ?? article.title,
+          description: article.seoDescription ?? article.excerpt,
+          type: "article",
+          publishedTime: article.publishedAt,
+          tags: article.tags,
+        },
+        alternates: { canonical: `/blog/${slug}` },
+      };
+    }
+  } catch {
+    // fall through
+  }
+  // Fall back to static article
+  const sa = getStaticArticle(slug);
+  if (sa) {
+    return {
+      title: sa.seoTitle,
+      description: sa.seoDescription,
+      openGraph: {
+        title: sa.seoTitle,
+        description: sa.seoDescription,
         type: "article",
-        publishedTime: article.publishedAt,
-        tags: article.tags,
+        publishedTime: sa.publishedAt,
+        tags: sa.tags,
+        images: [{ url: sa.heroImage }],
       },
       alternates: { canonical: `/blog/${slug}` },
     };
-  } catch {
-    return { title: "Article Not Found" };
   }
+  return { title: "Article Not Found" };
 }
 
 export default async function BlogPostPage({ params }: Props) {
   const { slug } = await params;
-  let article: Article;
 
+  // Try Sanity first
+  let sanityArticle: Article | null = null;
   try {
-    article = await getArticle(slug);
-    if (!article) notFound();
+    const fetched = await getArticle(slug);
+    if (fetched) sanityArticle = fetched;
   } catch {
-    notFound();
+    // Sanity not configured
   }
 
-  const a = article;
+  // Fall back to static article
+  const staticArticle: StaticArticle | undefined = !sanityArticle ? getStaticArticle(slug) : undefined;
+  if (!sanityArticle && !staticArticle) notFound();
+
+  const a = sanityArticle ?? staticArticle!;
+  const isStatic = !sanityArticle && !!staticArticle;
 
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "Article",
-    headline: a.seoTitle ?? a.title,
-    description: a.seoDescription ?? a.excerpt,
+    headline: isStatic ? staticArticle!.seoTitle : (sanityArticle!.seoTitle ?? sanityArticle!.title),
+    description: isStatic ? staticArticle!.seoDescription : (sanityArticle!.seoDescription ?? sanityArticle!.excerpt),
     author: { "@type": "Organization", name: "Tanzania Trip Planner" },
     publisher: {
       "@type": "Organization",
@@ -69,6 +103,7 @@ export default async function BlogPostPage({ params }: Props) {
     },
     datePublished: a.publishedAt,
     dateModified: a.publishedAt,
+    ...(isStatic && { image: staticArticle!.heroImage }),
     mainEntityOfPage: { "@type": "WebPage", "@id": `https://tanzaniatripplanner.com/blog/${slug}` },
   };
 
@@ -113,25 +148,34 @@ export default async function BlogPostPage({ params }: Props) {
               <Clock className="w-4 h-4" />{a.readingTime} min read
             </span>
           )}
-          {a.region?.length > 0 && (
-            <span className="px-3 py-1 bg-stone-100 text-stone-600 rounded-full text-xs">{a.region[0].name}</span>
+          {!isStatic && sanityArticle?.region?.length > 0 && (
+            <span className="px-3 py-1 bg-stone-100 text-stone-600 rounded-full text-xs">{sanityArticle.region[0].name}</span>
           )}
         </div>
 
-        {/* Hero image placeholder */}
-        <div className="h-72 bg-gradient-to-br from-amber-50 to-stone-200 rounded-2xl flex items-center justify-center text-8xl mb-8">
-          {a.tags?.includes("kilimanjaro") ? "⛰️" : a.tags?.includes("zanzibar") ? "🏝️" : a.tags?.includes("wildlife") || a.tags?.includes("safari") ? "🦁" : "🌍"}
-        </div>
-
-        {/* Portable text content */}
-        {a.body ? (
-          <div className="prose prose-stone prose-lg max-w-none prose-headings:text-stone-800 prose-a:text-amber-700 prose-a:no-underline hover:prose-a:underline prose-img:rounded-2xl">
-            {/* Rendered by @portabletext/react in production */}
-            <p className="text-stone-500 italic text-sm">[Article content renders from Sanity CMS]</p>
-          </div>
+        {/* Hero image */}
+        {isStatic ? (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img src={staticArticle!.heroImage} alt={staticArticle!.title} className="w-full h-72 object-cover rounded-2xl mb-8" />
         ) : (
-          <div className="prose prose-stone prose-lg max-w-none">
-            <p className="text-stone-500">Content is being loaded from the CMS. Please configure your Sanity project.</p>
+          <div className="h-72 bg-gradient-to-br from-amber-50 to-stone-200 rounded-2xl flex items-center justify-center text-8xl mb-8">
+            {a.tags?.includes("kilimanjaro") ? "⛰️" : a.tags?.includes("zanzibar") ? "🏝️" : a.tags?.includes("wildlife") || a.tags?.includes("safari") ? "🦁" : "🌍"}
+          </div>
+        )}
+
+        {/* Article body */}
+        {isStatic ? (
+          <div
+            className="prose prose-stone prose-lg max-w-none prose-headings:text-stone-800 prose-headings:font-bold prose-h2:text-2xl prose-h3:text-lg prose-a:text-amber-700 prose-a:no-underline hover:prose-a:underline prose-img:rounded-2xl prose-table:text-sm prose-td:py-2 prose-th:py-2 prose-li:marker:text-amber-500"
+            dangerouslySetInnerHTML={{ __html: staticArticle!.bodyHtml }}
+          />
+        ) : (
+          <div className="prose prose-stone prose-lg max-w-none prose-headings:text-stone-800 prose-a:text-amber-700 prose-a:no-underline hover:prose-a:underline prose-img:rounded-2xl">
+            {sanityArticle?.body ? (
+              <p className="text-stone-500 italic text-sm">[Article content renders from Sanity CMS]</p>
+            ) : (
+              <p className="text-stone-500">Content is being loaded from the CMS.</p>
+            )}
           </div>
         )}
 
