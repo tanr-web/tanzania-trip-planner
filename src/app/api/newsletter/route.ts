@@ -1,8 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { Resend } from "resend";
 
-const resend = new Resend(process.env.RESEND_API_KEY);
-
 export async function POST(req: NextRequest) {
   const formData = await req.formData();
   const email = formData.get("email")?.toString();
@@ -13,6 +11,10 @@ export async function POST(req: NextRequest) {
 
   try {
     // Send welcome email with packing list
+    if (!process.env.RESEND_API_KEY) {
+      return NextResponse.redirect(new URL("/?newsletter=success", req.url));
+    }
+    const resend = new Resend(process.env.RESEND_API_KEY);
     await resend.emails.send({
       from: process.env.RESEND_FROM_EMAIL ?? "hello@tanzaniatripplanner.com",
       to: email,
