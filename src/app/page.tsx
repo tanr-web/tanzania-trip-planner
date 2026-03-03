@@ -9,7 +9,7 @@ export const revalidate = 86400;
 
 const featuredRegions = [
   { name: "Serengeti", slug: "serengeti", tagline: "The Great Migration", image: "https://images.unsplash.com/photo-1516426122078-c23e76319801?w=600&q=80", bestTime: "Jun–Oct" },
-  { name: "Zanzibar", slug: "zanzibar", tagline: "Pristine Beaches", image: "https://images.unsplash.com/photo-1504214208698-ea446addba16?w=600&q=80", bestTime: "Jun–Oct" },
+  { name: "Zanzibar", slug: "zanzibar", tagline: "Pristine Beaches", image: "https://images.unsplash.com/photo-1567450297569-3aced3024eab?w=600&q=80", bestTime: "Jun–Oct" },
   { name: "Ngorongoro", slug: "ngorongoro", tagline: "The Eighth Wonder", image: "https://images.unsplash.com/photo-1523805009345-7448845a9e53?w=600&q=80", bestTime: "Year-round" },
   { name: "Kilimanjaro", slug: "kilimanjaro", tagline: "Roof of Africa", image: "https://images.unsplash.com/photo-1589308078059-be1415eab4c3?w=600&q=80", bestTime: "Jan–Feb, Jun–Oct" },
   { name: "Tarangire", slug: "tarangire", tagline: "Land of Giants", image: "https://images.unsplash.com/photo-1547970810-dc1eac37d174?w=600&q=80", bestTime: "Jun–Oct" },
