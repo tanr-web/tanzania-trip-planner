@@ -42,7 +42,6 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function RegionDetailPage({ params }: Props) {
   const { region: slug } = await params;
-  console.log('[Destination] Loading region:', slug);
   let regionData: Region | null = null;
   let hotels: Hotel[] = [];
   let articles: Article[] = [];
