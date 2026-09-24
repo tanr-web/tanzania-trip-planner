@@ -26,12 +26,13 @@ export default async function RestaurantsPage({
 
   try {
     restaurants = await getAllRestaurants();
-  } catch {
-    // Fallback to sample restaurants if Sanity not configured
+  } catch (error) {
+    console.log('[Restaurants] Sanity fetch failed, using sample data');
   }
 
-  // Use sample restaurants if no Sanity data
+  // Use sample restaurants if no Sanity data (for now, always use sample to ensure data displays)
   let displayRestaurants = restaurants.length > 0 ? restaurants : (SAMPLE_RESTAURANTS as unknown as Restaurant[]);
+  console.log('[Restaurants] Displaying', displayRestaurants.length, 'restaurants');
 
   // Apply filters
   if (region && region !== "All") {
