@@ -42,19 +42,23 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function RegionDetailPage({ params }: Props) {
   const { region: slug } = await params;
+  console.log('[Destination] Loading region:', slug);
   let regionData: Region | null = null;
   let hotels: Hotel[] = [];
   let articles: Article[] = [];
 
   try {
     regionData = await getRegion(slug);
-  } catch {
-    const staticR = REGIONS.find((r) => r.slug === slug);
-    if (!staticR) notFound();
-    regionData = { _id: staticR!.slug, name: staticR!.name, slug: staticR!.slug, bestMonths: staticR!.bestMonths } as unknown as Region;
+  } catch (error) {
+    // Sanity fetch error, will fall back to static data
   }
 
-  if (!regionData) notFound();
+  // If no data from Sanity, use static regions
+  if (!regionData) {
+    const staticR = REGIONS.find((r) => r.slug === slug);
+    if (!staticR) notFound();
+    regionData = { _id: staticR.slug, name: staticR.name, slug: staticR.slug, bestMonths: staticR.bestMonths } as unknown as Region;
+  }
 
   try {
     [hotels, articles] = await Promise.all([
