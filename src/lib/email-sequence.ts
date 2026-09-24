@@ -48,12 +48,20 @@ export async function sendEmailFromTemplate(
     return { success: true };
   }
 
+  // For development with unverified domain, only send to verified email
+  const verifiedEmail = process.env.RESEND_VERIFIED_EMAIL;
+  if (verifiedEmail && toEmail !== verifiedEmail) {
+    console.log(`[Email Dev] Skipping "${templateName}" to ${toEmail} (domain not verified)`);
+    console.log(`[Email Dev] Tip: Verify your domain at resend.com/domains for production`);
+    return { success: true };
+  }
+
   try {
     const resend = new Resend(apiKey);
     const template = getEmailTemplate(templateName);
 
     const response = await resend.emails.send({
-      from: process.env.RESEND_FROM_EMAIL ?? "hello@tanzaniatripplanner.com",
+      from: process.env.RESEND_FROM_EMAIL ?? "onboarding@resend.dev",
       to: toEmail,
       subject: template.subject,
       html: template.html,

@@ -65,7 +65,7 @@ export default async function HotelsPage({
       {/* Filters */}
       <div className="bg-stone-50 rounded-2xl p-5 mb-8 space-y-4">
         <div>
-          <p className="text-xs font-semibold text-stone-500 uppercase tracking-wide mb-2">Region</p>
+          <p className="text-xs font-semibold text-stone-700 uppercase tracking-wide mb-2">Region</p>
           <div className="flex flex-wrap gap-2">
             {REGIONS.map((r) => (
               <Link
@@ -80,7 +80,7 @@ export default async function HotelsPage({
         </div>
         <div className="flex flex-wrap gap-6">
           <div>
-            <p className="text-xs font-semibold text-stone-500 uppercase tracking-wide mb-2">Budget</p>
+            <p className="text-xs font-semibold text-stone-700 uppercase tracking-wide mb-2">Budget</p>
             <div className="flex flex-wrap gap-2">
               {BUDGETS.map((b) => (
                 <Link
@@ -94,7 +94,7 @@ export default async function HotelsPage({
             </div>
           </div>
           <div>
-            <p className="text-xs font-semibold text-stone-500 uppercase tracking-wide mb-2">Type</p>
+            <p className="text-xs font-semibold text-stone-700 uppercase tracking-wide mb-2">Type</p>
             <div className="flex flex-wrap gap-2">
               {TYPES.map((t) => (
                 <Link
@@ -115,7 +115,7 @@ export default async function HotelsPage({
         <div className="text-center py-20">
           <div className="text-5xl mb-4">🏕️</div>
           <h2 className="text-xl font-bold text-stone-800 mb-2">No hotels found</h2>
-          <p className="text-stone-500 mb-6">Try adjusting your filters or browse all hotels.</p>
+          <p className="text-stone-700 mb-6">Try adjusting your filters or browse all hotels.</p>
           <Link href="/hotels" className="px-6 py-3 bg-amber-500 text-white font-semibold rounded-full hover:bg-amber-600 transition-colors">
             View All Hotels
           </Link>
@@ -161,7 +161,7 @@ function HotelCard({ hotel }: { hotel: Hotel }) {
           )}
         </div>
 
-        <div className="flex items-center gap-1 text-stone-500 text-sm mb-3">
+        <div className="flex items-center gap-1 text-stone-700 text-sm mb-3">
           <MapPin className="w-3.5 h-3.5" />
           <span>{hotel.region?.name ?? "Tanzania"}</span>
         </div>

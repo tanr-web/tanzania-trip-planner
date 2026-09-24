@@ -110,7 +110,7 @@ export default function CostEstimatorPage() {
               aria-valuemin={3}
               aria-valuemax={21}
             />
-            <div className="flex justify-between text-xs text-stone-400 mt-1">
+            <div className="flex justify-between text-xs text-stone-600 mt-1">
               <span>3 nights</span><span>21 nights</span>
             </div>
           </div>
@@ -133,7 +133,7 @@ export default function CostEstimatorPage() {
               aria-valuemin={1}
               aria-valuemax={8}
             />
-            <div className="flex justify-between text-xs text-stone-400 mt-1">
+            <div className="flex justify-between text-xs text-stone-600 mt-1">
               <span>1 person</span><span>8 people</span>
             </div>
           </div>
@@ -154,7 +154,7 @@ export default function CostEstimatorPage() {
                     }`}
                   >
                     <p className="font-semibold text-stone-800 text-sm capitalize">{t === "mid" ? "Mid-range" : t === "luxury" ? "Luxury" : "Budget"}</p>
-                    <p className="text-xs text-stone-500 mt-0.5">${bt.dailyCostPerPerson}/day</p>
+                    <p className="text-xs text-stone-700 mt-0.5">${bt.dailyCostPerPerson}/day</p>
                   </button>
                 );
               })}
@@ -190,7 +190,7 @@ export default function CostEstimatorPage() {
                   className="w-4 h-4 accent-amber-500" />
                 <span className="text-sm text-stone-700">Include Zanzibar beach extension</span>
                 {includeZanzibar && (
-                  <span className="text-xs text-stone-400 ml-2">
+                  <span className="text-xs text-stone-600 ml-2">
                     <input type="number" min={2} max={14} value={zanzibarDays}
                       onChange={(e) => setZanzibarDays(Number(e.target.value))}
                       className="w-12 border border-stone-300 rounded px-1 text-center" /> nights
@@ -225,10 +225,10 @@ export default function CostEstimatorPage() {
                 <span>Total</span>
                 <span>${costs.total.toLocaleString()}</span>
               </div>
-              <p className="text-xs text-stone-400 mt-1">${costs.perPerson.toLocaleString()} per person</p>
+              <p className="text-xs text-stone-600 mt-1">${costs.perPerson.toLocaleString()} per person</p>
             </div>
 
-            <p className="text-xs text-stone-400 mb-4">
+            <p className="text-xs text-stone-600 mb-4">
               * Excludes international flights and travel insurance. Estimates only — actual costs vary.
             </p>
 

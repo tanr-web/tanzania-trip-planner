@@ -140,7 +140,7 @@ export default function PackingListPage() {
         <div className="h-2 bg-stone-100 rounded-full overflow-hidden">
           <div className="h-full bg-amber-400 rounded-full transition-all" style={{ width: `${progress}%` }} />
         </div>
-        <p className="text-xs text-stone-400 mt-1">{progress}% complete</p>
+        <p className="text-xs text-stone-600 mt-1">{progress}% complete</p>
       </div>
 
       {/* Checklist by category */}
@@ -152,7 +152,7 @@ export default function PackingListPage() {
             <div key={cat}>
               <h2 className="font-bold text-stone-800 text-lg mb-4 flex items-center gap-2">
                 {cat}
-                <span className="text-xs font-normal text-stone-400">
+                <span className="text-xs font-normal text-stone-600">
                   ({items.filter((i) => checked.has(i.id)).length}/{items.length})
                 </span>
               </h2>
@@ -170,7 +170,7 @@ export default function PackingListPage() {
                       <div className="flex-shrink-0 text-green-600">
                         {isChecked ? <CheckSquare className="w-5 h-5" /> : <Square className="w-5 h-5 text-stone-300" />}
                       </div>
-                      <span className={`flex-1 text-sm ${isChecked ? "line-through text-stone-400" : "text-stone-700"}`}>
+                      <span className={`flex-1 text-sm ${isChecked ? "line-through text-stone-600" : "text-stone-700"}`}>
                         {item.item}
                         {item.essential && !isChecked && (
                           <span className="ml-2 text-xs text-amber-600 font-medium">Essential</span>
@@ -182,7 +182,7 @@ export default function PackingListPage() {
                           target="_blank"
                           rel="noopener noreferrer nofollow"
                           onClick={(e) => e.stopPropagation()}
-                          className="text-xs text-stone-400 hover:text-amber-600 flex-shrink-0"
+                          className="text-xs text-stone-600 hover:text-amber-600 flex-shrink-0"
                         >
                           Buy →
                         </a>

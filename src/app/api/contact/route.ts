@@ -31,8 +31,8 @@ export async function POST(req: NextRequest) {
     const resend = new Resend(process.env.RESEND_API_KEY);
 
     const adminResponse = await resend.emails.send({
-      from: process.env.RESEND_FROM_EMAIL ?? "hello@tanzaniatripplanner.com",
-      to: "hello@tanzaniatripplanner.com",
+      from: process.env.RESEND_FROM_EMAIL ?? "onboarding@resend.dev",
+      to: process.env.RESEND_VERIFIED_EMAIL ?? "tanzaniatripplanner@gmail.com",
       subject: `[Contact Form] ${subject}`,
       html: `
 <!DOCTYPE html>
@@ -85,8 +85,18 @@ export async function POST(req: NextRequest) {
       );
     }
 
+    // For development with unverified domain, skip confirmation email
+    // In production, verify the domain in Resend to enable this
+    if (process.env.RESEND_VERIFIED_EMAIL && email !== process.env.RESEND_VERIFIED_EMAIL) {
+      console.log(`[Contact] Skipping confirmation email to ${email} (unverified domain in dev)`);
+      return NextResponse.json({
+        success: true,
+        message: "Message sent successfully",
+      });
+    }
+
     const confirmResponse = await resend.emails.send({
-      from: process.env.RESEND_FROM_EMAIL ?? "hello@tanzaniatripplanner.com",
+      from: process.env.RESEND_FROM_EMAIL ?? "onboarding@resend.dev",
       to: email,
       subject: "We received your message 🎉",
       html: `

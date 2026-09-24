@@ -113,7 +113,7 @@ export default async function BlogPostPage({ params }: Props) {
       />
       <article className="max-w-3xl mx-auto px-4 sm:px-6 py-10">
         {/* Back link */}
-        <Link href="/blog" className="inline-flex items-center gap-2 text-stone-500 hover:text-amber-600 text-sm mb-8 transition-colors">
+        <Link href="/blog" className="inline-flex items-center gap-2 text-stone-700 hover:text-amber-600 text-sm mb-8 transition-colors">
           <ArrowLeft className="w-4 h-4" />Back to Blog
         </Link>
 
@@ -138,7 +138,7 @@ export default async function BlogPostPage({ params }: Props) {
           <p className="text-lg text-stone-600 mb-6 leading-relaxed">{a.excerpt}</p>
         )}
 
-        <div className="flex flex-wrap items-center gap-4 text-sm text-stone-400 mb-8 pb-8 border-b border-stone-200">
+        <div className="flex flex-wrap items-center gap-4 text-sm text-stone-600 mb-8 pb-8 border-b border-stone-200">
           {a.publishedAt && (
             <span className="flex items-center gap-1.5">
               <Calendar className="w-4 h-4" />{formatDate(a.publishedAt)}
@@ -173,16 +173,16 @@ export default async function BlogPostPage({ params }: Props) {
         ) : (
           <div className="prose prose-stone prose-lg max-w-none prose-headings:text-stone-800 prose-a:text-amber-700 prose-a:no-underline hover:prose-a:underline prose-img:rounded-2xl">
             {sanityArticle?.body ? (
-              <p className="text-stone-500 italic text-sm">[Article content renders from Sanity CMS]</p>
+              <p className="text-stone-700 italic text-sm">[Article content renders from Sanity CMS]</p>
             ) : (
-              <p className="text-stone-500">Content is being loaded from the CMS.</p>
+              <p className="text-stone-700">Content is being loaded from the CMS.</p>
             )}
           </div>
         )}
 
         {/* AdSense slot (mid-article) */}
         {process.env.NEXT_PUBLIC_ADSENSE_CLIENT_ID && (
-          <div className="my-10 bg-stone-50 rounded-2xl p-4 text-center text-xs text-stone-400 border border-dashed border-stone-200">
+          <div className="my-10 bg-stone-50 rounded-2xl p-4 text-center text-xs text-stone-600 border border-dashed border-stone-200">
             [AdSense ad — insert ins tag here]
           </div>
         )}

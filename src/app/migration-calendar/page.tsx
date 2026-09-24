@@ -70,7 +70,7 @@ export default function MigrationCalendarPage() {
                 )}
               </>
             ) : (
-              <p className="text-stone-500">Migration data for this month is being updated.</p>
+              <p className="text-stone-700">Migration data for this month is being updated.</p>
             )}
           </div>
 
@@ -106,7 +106,7 @@ export default function MigrationCalendarPage() {
                 ))}
               </ul>
             ) : (
-              <p className="text-stone-500 text-sm">Camp recommendations for this month coming soon.</p>
+              <p className="text-stone-700 text-sm">Camp recommendations for this month coming soon.</p>
             )}
 
             <div className="mt-5 pt-4 border-t border-stone-100">

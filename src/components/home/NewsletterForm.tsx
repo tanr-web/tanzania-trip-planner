@@ -98,7 +98,7 @@ export default function NewsletterForm() {
           </div>
         )}
 
-        <p className="text-xs text-stone-500">
+        <p className="text-xs text-stone-700">
           We respect your privacy. Unsubscribe anytime. See our <a href="/privacy" className="text-amber-600 hover:underline">privacy policy</a>.
         </p>
       </form>

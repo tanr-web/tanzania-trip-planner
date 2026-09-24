@@ -161,8 +161,8 @@ export default async function HomePage() {
             {latestArticles.map((article: { slug: string; title: string; seoDescription?: string; publishedAt?: string }) => (
               <Link key={article.slug} href={`/blog/${article.slug}`} className="group rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow border border-stone-100 p-5">
                 <h3 className="font-bold text-stone-800 group-hover:text-amber-700 transition-colors line-clamp-2 mb-2">{article.title}</h3>
-                {article.seoDescription && <p className="text-stone-500 text-sm line-clamp-2">{article.seoDescription}</p>}
-                {article.publishedAt && <p className="text-xs text-stone-400 mt-3">{formatDate(article.publishedAt)}</p>}
+                {article.seoDescription && <p className="text-stone-700 text-sm line-clamp-2">{article.seoDescription}</p>}
+                {article.publishedAt && <p className="text-xs text-stone-600 mt-3">{formatDate(article.publishedAt)}</p>}
               </Link>
             ))}
           </div>

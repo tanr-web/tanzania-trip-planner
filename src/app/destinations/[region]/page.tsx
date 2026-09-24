@@ -85,7 +85,7 @@ export default async function RegionDetailPage({ params }: Props) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: getSchemaScript(destSchema) }}
       />
-      <Link href="/destinations" className="inline-flex items-center gap-2 text-stone-500 hover:text-amber-600 text-sm mb-8 transition-colors">
+      <Link href="/destinations" className="inline-flex items-center gap-2 text-stone-700 hover:text-amber-600 text-sm mb-8 transition-colors">
         <ArrowLeft className="w-4 h-4" />All Destinations
       </Link>
 
@@ -97,7 +97,7 @@ export default async function RegionDetailPage({ params }: Props) {
       <h1 className="text-3xl font-bold text-stone-800 mb-2">{regionData.name}</h1>
 
       {regionData.bestMonths?.length > 0 && (
-        <div className="flex items-center gap-2 text-stone-500 text-sm mb-4">
+        <div className="flex items-center gap-2 text-stone-700 text-sm mb-4">
           <MapPin className="w-4 h-4" />
           Best time to visit: {Array.isArray(regionData.bestMonths) ? regionData.bestMonths.join(", ") : regionData.bestMonths}
         </div>
@@ -195,7 +195,7 @@ export default async function RegionDetailPage({ params }: Props) {
             {hotels.slice(0, 3).map((h) => (
               <Link key={h._id} href={`/hotels/${h.slug}`} className="group block bg-white rounded-xl border border-stone-200 hover:shadow-md transition-shadow p-4">
                 <h3 className="font-semibold text-stone-800 group-hover:text-amber-700 transition-colors text-sm mb-1">{h.name}</h3>
-                <p className="text-xs text-stone-400 capitalize">{h.type?.replace("_", " ")}</p>
+                <p className="text-xs text-stone-600 capitalize">{h.type?.replace("_", " ")}</p>
               </Link>
             ))}
           </div>
@@ -215,7 +215,7 @@ export default async function RegionDetailPage({ params }: Props) {
                 <span className="text-2xl">📖</span>
                 <div>
                   <h3 className="font-medium text-stone-800 group-hover:text-amber-700 transition-colors text-sm">{a.title}</h3>
-                  {a.excerpt && <p className="text-xs text-stone-400 mt-0.5 line-clamp-1">{a.excerpt}</p>}
+                  {a.excerpt && <p className="text-xs text-stone-600 mt-0.5 line-clamp-1">{a.excerpt}</p>}
                 </div>
               </Link>
             ))}

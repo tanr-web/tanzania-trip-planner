@@ -52,7 +52,7 @@ export default function BlogLink({ article }: BlogLinkProps) {
             {article.excerpt}
           </p>
         )}
-        <div className="flex items-center gap-3 text-xs text-stone-500 mb-4">
+        <div className="flex items-center gap-3 text-xs text-stone-700 mb-4">
           {article.publishedAt && (
             <div className="flex items-center gap-1">
               <CalendarIcon className="w-3 h-3" />

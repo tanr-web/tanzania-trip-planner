@@ -108,7 +108,7 @@ export default async function BlogPage({
                     {featuredStatic.title}
                   </h2>
                   <p className="text-stone-600 text-sm leading-relaxed mb-4">{featuredStatic.excerpt}</p>
-                  <div className="flex items-center gap-4 text-xs text-stone-400">
+                  <div className="flex items-center gap-4 text-xs text-stone-600">
                     <span>{formatDate(featuredStatic.publishedAt)}</span>
                     <span className="flex items-center gap-1">
                       <Clock className="w-3 h-3" />{featuredStatic.readingTime} min read
@@ -132,8 +132,8 @@ export default async function BlogPage({
                   <h3 className="font-bold text-stone-800 group-hover:text-amber-700 transition-colors leading-snug mb-2">
                     {a.title}
                   </h3>
-                  <p className="text-stone-500 text-xs leading-relaxed line-clamp-2 mb-3">{a.excerpt}</p>
-                  <div className="flex items-center justify-between text-xs text-stone-400">
+                  <p className="text-stone-700 text-xs leading-relaxed line-clamp-2 mb-3">{a.excerpt}</p>
+                  <div className="flex items-center justify-between text-xs text-stone-600">
                     <span>{formatDate(a.publishedAt)}</span>
                     <div className="flex items-center gap-1 text-amber-600 font-medium group-hover:gap-2 transition-all">
                       Read <ArrowRight className="w-3 h-3" />
@@ -144,7 +144,7 @@ export default async function BlogPage({
             ))}
           </div>
           {displayArticles.length === 0 && (
-            <p className="text-center text-stone-500 py-12">No articles found for this tag. <Link href="/blog" className="text-amber-600 underline">View all</Link></p>
+            <p className="text-center text-stone-700 py-12">No articles found for this tag. <Link href="/blog" className="text-amber-600 underline">View all</Link></p>
           )}
         </>
       )}
@@ -170,7 +170,7 @@ export default async function BlogPage({
                   {featuredArticle.excerpt && (
                     <p className="text-stone-600 text-sm leading-relaxed mb-4">{featuredArticle.excerpt}</p>
                   )}
-                  <div className="flex items-center gap-4 text-xs text-stone-400">
+                  <div className="flex items-center gap-4 text-xs text-stone-600">
                     {featuredArticle.publishedAt && <span>{formatDate(featuredArticle.publishedAt)}</span>}
                     {featuredArticle.readingTime && (
                       <span className="flex items-center gap-1">
@@ -209,9 +209,9 @@ function ArticleCard({ article: a }: { article: Article }) {
           {a.title}
         </h3>
         {a.excerpt && (
-          <p className="text-stone-500 text-xs leading-relaxed line-clamp-2 mb-3">{a.excerpt}</p>
+          <p className="text-stone-700 text-xs leading-relaxed line-clamp-2 mb-3">{a.excerpt}</p>
         )}
-        <div className="flex items-center justify-between text-xs text-stone-400">
+        <div className="flex items-center justify-between text-xs text-stone-600">
           {a.publishedAt && <span>{formatDate(a.publishedAt)}</span>}
           <div className="flex items-center gap-1 text-amber-600 font-medium group-hover:gap-2 transition-all">
             Read <ArrowRight className="w-3 h-3" />

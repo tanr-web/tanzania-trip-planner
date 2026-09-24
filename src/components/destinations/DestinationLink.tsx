@@ -42,12 +42,12 @@ export default function DestinationLink({ region }: DestinationLinkProps) {
           {region.name}
         </h2>
         {typeof region.description === "string" && region.description && (
-          <p className="text-stone-500 text-sm leading-relaxed line-clamp-2 mb-4">
+          <p className="text-stone-700 text-sm leading-relaxed line-clamp-2 mb-4">
             {region.description}
           </p>
         )}
         {region.bestMonths?.length > 0 && (
-          <div className="flex items-center gap-1.5 text-xs text-stone-400 mb-4">
+          <div className="flex items-center gap-1.5 text-xs text-stone-600 mb-4">
             <MapPin className="w-3 h-3" />
             Best: {Array.isArray(region.bestMonths) ? region.bestMonths.join(", ") : region.bestMonths}
           </div>

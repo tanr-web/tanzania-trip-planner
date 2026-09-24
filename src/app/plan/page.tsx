@@ -201,11 +201,11 @@ export default function PlanPage() {
                       ? "bg-amber-500 border-amber-500 text-white"
                       : step === s.id
                       ? "bg-white border-amber-500 text-amber-600"
-                      : "bg-white border-stone-300 text-stone-400"
+                      : "bg-white border-stone-300 text-stone-600"
                   )}>
                     {step > s.id ? "✓" : <Icon className="w-4 h-4" />}
                   </div>
-                  <span className={cn("text-xs hidden sm:block", step >= s.id ? "text-amber-700 font-medium" : "text-stone-400")}>
+                  <span className={cn("text-xs hidden sm:block", step >= s.id ? "text-amber-700 font-medium" : "text-stone-600")}>
                     {s.label}
                   </span>
                 </div>
@@ -226,7 +226,7 @@ export default function PlanPage() {
           {step === 1 && (
             <div>
               <h2 className="text-2xl font-bold text-stone-800 mb-1">When are you travelling?</h2>
-              <p className="text-stone-500 text-sm mb-6">We&apos;ll tailor your itinerary to the season.</p>
+              <p className="text-stone-700 text-sm mb-6">We&apos;ll tailor your itinerary to the season.</p>
               <div className="grid grid-cols-2 gap-4 mb-4">
                 <div>
                   <label className="block text-sm font-medium text-stone-700 mb-1">Start Date</label>
@@ -277,7 +277,7 @@ export default function PlanPage() {
           {step === 2 && (
             <div>
               <h2 className="text-2xl font-bold text-stone-800 mb-1">Who&apos;s coming?</h2>
-              <p className="text-stone-500 text-sm mb-6">We&apos;ll check camp age policies and group pricing.</p>
+              <p className="text-stone-700 text-sm mb-6">We&apos;ll check camp age policies and group pricing.</p>
               <div className="grid grid-cols-2 gap-3 mb-6">
                 {GROUP_TYPES.map((g) => (
                   <button
@@ -292,7 +292,7 @@ export default function PlanPage() {
                   >
                     <div className="text-2xl mb-1">{g.icon}</div>
                     <div className="font-semibold text-stone-800 text-sm">{g.label}</div>
-                    <div className="text-stone-500 text-xs">{g.desc}</div>
+                    <div className="text-stone-700 text-xs">{g.desc}</div>
                   </button>
                 ))}
               </div>
@@ -317,7 +317,7 @@ export default function PlanPage() {
           {step === 3 && (
             <div>
               <h2 className="text-2xl font-bold text-stone-800 mb-1">What&apos;s your budget?</h2>
-              <p className="text-stone-500 text-sm mb-6">Per person per day, excluding international flights.</p>
+              <p className="text-stone-700 text-sm mb-6">Per person per day, excluding international flights.</p>
               <div className="flex flex-col gap-4">
                 {(Object.entries(BUDGET_TIERS) as [BudgetTier, typeof BUDGET_TIERS[keyof typeof BUDGET_TIERS]][]).map(([key, tier]) => (
                   <button
@@ -334,7 +334,7 @@ export default function PlanPage() {
                       <span className="font-bold text-stone-800">{tier.label}</span>
                       <span className="text-amber-700 font-semibold text-sm">{tier.dailyCost}/day</span>
                     </div>
-                    <p className="text-stone-500 text-sm">{tier.description}</p>
+                    <p className="text-stone-700 text-sm">{tier.description}</p>
                   </button>
                 ))}
               </div>
@@ -345,7 +345,7 @@ export default function PlanPage() {
           {step === 4 && (
             <div>
               <h2 className="text-2xl font-bold text-stone-800 mb-1">What excites you most?</h2>
-              <p className="text-stone-500 text-sm mb-6">Pick everything that appeals — we&apos;ll balance your itinerary.</p>
+              <p className="text-stone-700 text-sm mb-6">Pick everything that appeals — we&apos;ll balance your itinerary.</p>
               <div className="flex flex-wrap gap-2">
                 {INTERESTS.map((interest) => (
                   <button
@@ -375,14 +375,14 @@ export default function PlanPage() {
             <div className="space-y-6">
               <div>
                 <h2 className="text-2xl font-bold text-stone-800 mb-1">Your travel lifestyle</h2>
-                <p className="text-stone-500 text-sm mb-0">Help us match activities to your body, diet and transport comfort.</p>
+                <p className="text-stone-700 text-sm mb-0">Help us match activities to your body, diet and transport comfort.</p>
               </div>
 
               {/* Category 2 – Physical Conditioning */}
               <div>
                 <label className="block text-sm font-semibold text-stone-700 mb-2">
                   Physical conditioning
-                  <span className="ml-1 text-xs font-normal text-stone-400">— we pace activities to match</span>
+                  <span className="ml-1 text-xs font-normal text-stone-600">— we pace activities to match</span>
                 </label>
                 <div className="grid grid-cols-3 gap-3">
                   {FITNESS_LEVELS.map((f) => (
@@ -397,7 +397,7 @@ export default function PlanPage() {
                       )}
                     >
                       <div className="font-semibold text-stone-800">{f.label}</div>
-                      <div className="text-stone-500 text-xs mt-0.5">{f.desc}</div>
+                      <div className="text-stone-700 text-xs mt-0.5">{f.desc}</div>
                     </button>
                   ))}
                 </div>
@@ -407,7 +407,7 @@ export default function PlanPage() {
               <div>
                 <label className="block text-sm font-semibold text-stone-700 mb-2">
                   Trip pacing
-                  <span className="ml-1 text-xs font-normal text-stone-400">— buffer days affect destination count</span>
+                  <span className="ml-1 text-xs font-normal text-stone-600">— buffer days affect destination count</span>
                 </label>
                 <div className="flex flex-col gap-3">
                   {PACING_STYLES.map((p) => (
@@ -422,7 +422,7 @@ export default function PlanPage() {
                       )}
                     >
                       <div className="font-semibold text-stone-800 text-sm">{p.label}</div>
-                      <div className="text-stone-500 text-xs mt-0.5">{p.desc}</div>
+                      <div className="text-stone-700 text-xs mt-0.5">{p.desc}</div>
                     </button>
                   ))}
                 </div>
@@ -444,7 +444,7 @@ export default function PlanPage() {
                       )}
                     >
                       <div className="font-semibold text-stone-800 text-sm">{t.label}</div>
-                      <div className="text-stone-500 text-xs mt-1">{t.desc}</div>
+                      <div className="text-stone-700 text-xs mt-1">{t.desc}</div>
                     </button>
                   ))}
                 </div>
@@ -454,7 +454,7 @@ export default function PlanPage() {
               <div>
                 <label className="block text-sm font-semibold text-stone-700 mb-2">
                   Dietary needs & allergies
-                  <span className="ml-1 text-xs font-normal text-stone-400">— cross-referenced with Swahili cuisine safety profiles</span>
+                  <span className="ml-1 text-xs font-normal text-stone-600">— cross-referenced with Swahili cuisine safety profiles</span>
                 </label>
                 <div className="flex flex-wrap gap-2">
                   {DIETARY_OPTIONS.map((d) => (
@@ -481,7 +481,7 @@ export default function PlanPage() {
             <div className="space-y-6">
               <div>
                 <h2 className="text-2xl font-bold text-stone-800 mb-1">Your values & priorities</h2>
-                <p className="text-stone-500 text-sm">Shape the soul of your trip — wildlife focus, culture depth, eco ethics and more.</p>
+                <p className="text-stone-700 text-sm">Shape the soul of your trip — wildlife focus, culture depth, eco ethics and more.</p>
               </div>
 
               {/* Category 3 – Accommodation Vibe */}
@@ -500,7 +500,7 @@ export default function PlanPage() {
                       )}
                     >
                       <div className="font-semibold text-stone-800 text-sm">{a.label}</div>
-                      <div className="text-stone-500 text-xs mt-1">{a.desc}</div>
+                      <div className="text-stone-700 text-xs mt-1">{a.desc}</div>
                     </button>
                   ))}
                 </div>
@@ -510,7 +510,7 @@ export default function PlanPage() {
               <div>
                 <label className="block text-sm font-semibold text-stone-700 mb-2">
                   Wildlife priorities
-                  <span className="ml-1 text-xs font-normal text-stone-400">— aligned to seasonal migration calendar</span>
+                  <span className="ml-1 text-xs font-normal text-stone-600">— aligned to seasonal migration calendar</span>
                 </label>
                 <div className="grid grid-cols-2 gap-3">
                   {WILDLIFE_PRIORITIES.map((w) => (
@@ -525,7 +525,7 @@ export default function PlanPage() {
                       )}
                     >
                       <div className="font-semibold text-stone-800 text-sm">{w.label}</div>
-                      <div className="text-stone-500 text-xs mt-1">{w.desc}</div>
+                      <div className="text-stone-700 text-xs mt-1">{w.desc}</div>
                     </button>
                   ))}
                 </div>
@@ -547,7 +547,7 @@ export default function PlanPage() {
                       )}
                     >
                       <div className="font-semibold text-stone-800 text-sm">{c.label}</div>
-                      <div className="text-stone-500 text-xs mt-1">{c.desc}</div>
+                      <div className="text-stone-700 text-xs mt-1">{c.desc}</div>
                     </button>
                   ))}
                 </div>
@@ -566,7 +566,7 @@ export default function PlanPage() {
                 >
                   <div className="text-xl mb-1">🌱</div>
                   <div className="font-semibold text-stone-800 text-sm">Eco-certified stays</div>
-                  <div className="text-stone-500 text-xs mt-1">Filter for carbon-neutral & accredited eco-tourism properties</div>
+                  <div className="text-stone-700 text-xs mt-1">Filter for carbon-neutral & accredited eco-tourism properties</div>
                 </button>
                 <button
                   onClick={() => update({ historicalInterest: !prefs.historicalInterest })}
@@ -579,7 +579,7 @@ export default function PlanPage() {
                 >
                   <div className="text-xl mb-1">🏛️</div>
                   <div className="font-semibold text-stone-800 text-sm">Historical sites</div>
-                  <div className="text-stone-500 text-xs mt-1">UNESCO sites, Stone Town alleys, Swahili ruins & ancient narratives</div>
+                  <div className="text-stone-700 text-xs mt-1">UNESCO sites, Stone Town alleys, Swahili ruins & ancient narratives</div>
                 </button>
               </div>
 
@@ -587,7 +587,7 @@ export default function PlanPage() {
               <div>
                 <label className="block text-sm font-semibold text-stone-700 mb-1">
                   Where would you splurge?
-                  <span className="ml-1 text-xs font-normal text-stone-400">optional</span>
+                  <span className="ml-1 text-xs font-normal text-stone-600">optional</span>
                 </label>
                 <input
                   type="text"
@@ -614,7 +614,7 @@ export default function PlanPage() {
                 </div>
                 <div>
                   <label className="block text-sm font-semibold text-stone-700 mb-1">
-                    Must-see <span className="text-stone-400 font-normal text-xs">(optional)</span>
+                    Must-see <span className="text-stone-600 font-normal text-xs">(optional)</span>
                   </label>
                   <input
                     type="text"
@@ -638,7 +638,7 @@ export default function PlanPage() {
                     <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 text-2xl animate-pulse">✨</div>
                   </div>
                   <h2 className="text-xl font-bold text-stone-800 mb-2">Crafting your perfect Tanzania adventure…</h2>
-                  <p className="text-stone-500 text-sm mb-6">Our AI is consulting the Serengeti experts.</p>
+                  <p className="text-stone-700 text-sm mb-6">Our AI is consulting the Serengeti experts.</p>
                   <div className="flex justify-center gap-1">
                     {[0, 1, 2].map((i) => (
                       <div key={i} className="w-2 h-2 bg-amber-500 rounded-full animate-bounce" style={{ animationDelay: `${i * 0.15}s` }} />
@@ -685,7 +685,7 @@ export default function PlanPage() {
           )}
         </div>
 
-        <p className="text-center text-xs text-stone-400 mt-4">
+        <p className="text-center text-xs text-stone-600 mt-4">
           Free to use. No account required. AI-generated — always verify details before booking.
         </p>
       </div>

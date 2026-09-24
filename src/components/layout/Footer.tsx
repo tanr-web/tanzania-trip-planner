@@ -12,7 +12,7 @@ export function Footer() {
               <Map className="w-5 h-5 text-amber-500" />
               Tanzania Trip Planner
             </Link>
-            <p className="text-sm text-stone-400">
+            <p className="text-sm text-stone-600">
               AI-powered Tanzania itineraries. Handpicked hotels. Real local insight.
             </p>
           </div>
@@ -59,7 +59,7 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="border-t border-stone-800 mt-10 pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-stone-500">
+        <div className="border-t border-stone-800 mt-10 pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-stone-700">
           <p>© {new Date().getFullYear()} Tanzania Trip Planner. All rights reserved.</p>
           <p className="text-center">
             This site contains affiliate links. We may earn a commission if you book through our links,

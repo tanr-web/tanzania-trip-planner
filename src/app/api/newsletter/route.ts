@@ -2,8 +2,22 @@ import { NextRequest, NextResponse } from "next/server";
 import { isValidEmail, sendWelcomeSequenceStart } from "@/lib/email-sequence";
 
 export async function POST(req: NextRequest) {
-  const formData = await req.formData();
-  const email = formData.get("email")?.toString()?.toLowerCase().trim();
+  let email: string | undefined;
+
+  try {
+    const body = await req.json();
+    email = body.email?.toLowerCase().trim();
+  } catch {
+    try {
+      const formData = await req.formData();
+      email = formData.get("email")?.toString()?.toLowerCase().trim();
+    } catch (e) {
+      return NextResponse.json(
+        { error: "Invalid request format" },
+        { status: 400 }
+      );
+    }
+  }
 
   // Validate email
   if (!email || !isValidEmail(email)) {

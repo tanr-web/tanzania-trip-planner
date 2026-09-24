@@ -63,7 +63,7 @@ export default async function HotelDetailPage({ params }: Props) {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <div className="max-w-5xl mx-auto px-4 sm:px-6 py-10">
         {/* Breadcrumb */}
-        <nav className="text-sm text-stone-500 mb-6">
+        <nav className="text-sm text-stone-700 mb-6">
           <Link href="/hotels" className="hover:text-amber-600">Hotels</Link>
           <span className="mx-2">/</span>
           <span className="text-stone-700">{hotel.name}</span>
@@ -134,7 +134,7 @@ export default async function HotelDetailPage({ params }: Props) {
               </div>
             )}
 
-            <div className="bg-amber-50 rounded-2xl p-4 text-xs text-stone-500">
+            <div className="bg-amber-50 rounded-2xl p-4 text-xs text-stone-700">
               <strong>Affiliate disclosure:</strong> Booking links on this page may be affiliate links. We earn a small commission if you book through them, at no extra cost to you.
             </div>
           </div>
@@ -143,7 +143,7 @@ export default async function HotelDetailPage({ params }: Props) {
           <div className="space-y-4">
             <div className="bg-white rounded-2xl border border-stone-200 shadow-sm p-5 sticky top-24">
               <h2 className="font-bold text-stone-800 text-xl mb-1">{hotel.name}</h2>
-              <p className="text-stone-500 text-sm mb-4">{hotel.region?.name ?? "Tanzania"}</p>
+              <p className="text-stone-700 text-sm mb-4">{hotel.region?.name ?? "Tanzania"}</p>
 
               {bookingUrl ? (
                 <a
@@ -156,7 +156,7 @@ export default async function HotelDetailPage({ params }: Props) {
                   {hotel.affiliateLinks?.bookingCom ? "Book on Booking.com" : hotel.affiliateLinks?.safaribookings ? "Book via SafariBookings" : "Book Direct"}
                 </a>
               ) : (
-                <div className="w-full py-3 bg-stone-100 text-stone-500 text-center rounded-full text-sm mb-3">
+                <div className="w-full py-3 bg-stone-100 text-stone-700 text-center rounded-full text-sm mb-3">
                   Contact hotel directly
                 </div>
               )}

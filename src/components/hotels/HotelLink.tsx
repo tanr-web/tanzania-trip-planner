@@ -27,7 +27,7 @@ export default function HotelLink({ hotel }: HotelLinkProps) {
           <div>
             <h3 className="font-bold text-stone-800">{hotel.name}</h3>
             {hotel.region && (
-              <p className="text-xs text-stone-500">{hotel.region.name}</p>
+              <p className="text-xs text-stone-700">{hotel.region.name}</p>
             )}
           </div>
           {hotel.stars && (

@@ -78,7 +78,7 @@ export default async function RestaurantsPage({
       {/* Filter strip */}
       <div className="space-y-3 mb-8">
         <div className="flex flex-wrap gap-2">
-          <span className="text-xs font-semibold text-stone-400 self-center">CUISINE:</span>
+          <span className="text-xs font-semibold text-stone-600 self-center">CUISINE:</span>
           {CUISINES.map((c) => (
             <Link
               key={c}
@@ -94,7 +94,7 @@ export default async function RestaurantsPage({
           ))}
         </div>
         <div className="flex flex-wrap gap-2">
-          <span className="text-xs font-semibold text-stone-400 self-center">VIBE:</span>
+          <span className="text-xs font-semibold text-stone-600 self-center">VIBE:</span>
           {ATMOSPHERES.map((a) => (
             <Link
               key={a}
@@ -115,7 +115,7 @@ export default async function RestaurantsPage({
         <div className="text-center py-24">
           <div className="text-6xl mb-4">🍽️</div>
           <h2 className="text-xl font-bold text-stone-700 mb-2">No restaurants found</h2>
-          <p className="text-stone-500 mb-6">Try adjusting your filters or browse all restaurants.</p>
+          <p className="text-stone-700 mb-6">Try adjusting your filters or browse all restaurants.</p>
           <Link href="/restaurants" className="inline-flex items-center gap-2 px-6 py-3 bg-amber-500 hover:bg-amber-600 text-white font-semibold rounded-full transition-colors">
             View All Restaurants →
           </Link>
@@ -150,12 +150,12 @@ function RestaurantCard({ restaurant: r }: { restaurant: Restaurant }) {
         <div className="flex items-start justify-between gap-2 mb-1">
           <h3 className="font-bold text-stone-800 group-hover:text-amber-700 transition-colors leading-tight">{r.name}</h3>
           {r.priceRange && (
-            <span className="text-xs text-stone-500 whitespace-nowrap mt-0.5">{getPriceLabel(r.priceRange)}</span>
+            <span className="text-xs text-stone-700 whitespace-nowrap mt-0.5">{getPriceLabel(r.priceRange)}</span>
           )}
         </div>
 
         {r.region && (
-          <div className="flex items-center gap-1 text-stone-500 text-xs mb-3">
+          <div className="flex items-center gap-1 text-stone-700 text-xs mb-3">
             <MapPin className="w-3 h-3" />{r.region.name}
           </div>
         )}
@@ -175,7 +175,7 @@ function RestaurantCard({ restaurant: r }: { restaurant: Restaurant }) {
         </div>
 
         {r.openingHours && (
-          <div className="flex items-center gap-1 text-stone-400 text-xs">
+          <div className="flex items-center gap-1 text-stone-600 text-xs">
             <Clock className="w-3 h-3" />{r.openingHours}
           </div>
         )}

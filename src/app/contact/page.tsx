@@ -50,7 +50,7 @@ export default function ContactPage() {
           </div>
         </div>
         <div className="bg-stone-50 rounded-2xl p-5 flex items-start gap-3">
-          <MessageSquare className="w-5 h-5 text-stone-500 mt-0.5" />
+          <MessageSquare className="w-5 h-5 text-stone-700 mt-0.5" />
           <div>
             <p className="font-semibold text-stone-800 text-sm">Partnerships</p>
             <p className="text-stone-600 text-xs mt-0.5">partners@tanzaniatripplanner.com</p>

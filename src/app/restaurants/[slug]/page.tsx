@@ -60,7 +60,7 @@ export default async function RestaurantDetailPage({ params }: Props) {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <div className="max-w-4xl mx-auto px-4 sm:px-6 py-10">
         {/* Breadcrumb */}
-        <nav className="text-sm text-stone-500 mb-6">
+        <nav className="text-sm text-stone-700 mb-6">
           <Link href="/restaurants" className="hover:text-amber-600">Restaurants</Link>
           <span className="mx-2">/</span>
           <span className="text-stone-700">{r.name}</span>
