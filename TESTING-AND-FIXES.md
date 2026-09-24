@@ -9,8 +9,8 @@
 **Quick Diagnostics:**
 
 1. Check Vercel environment variables are set:
-   - `RESEND_API_KEY=re_HKB7nMe4_NDky96UAuzmg9p7DDYfHtTKg` ✓
-   - `RESEND_FROM_EMAIL=hello@tanzaniatripplanner.com` ✓
+   - `RESEND_API_KEY` ✓ (configured)
+   - `RESEND_FROM_EMAIL` ✓ (configured)
 
 2. **Test contact form:**
    - Go to `/contact` page
