@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { ArrowRight, ArrowLeft, Calendar, Users, Wallet, Heart, Settings, Sparkles, Leaf } from "lucide-react";
 import {
@@ -13,6 +13,7 @@ import type {
   AccommodationVibe, TransportPreference, WildlifePriority, CulturalDepth, PacingStyle,
 } from "@/types";
 import { cn } from "@/lib/utils";
+import { trackPlanTripStart, trackPlanTripComplete } from "@/lib/analytics";
 
 const STEPS = [
   { id: 1, label: "Dates",      icon: Calendar  },
@@ -43,6 +44,7 @@ export default function PlanPage() {
   const [step, setStep] = useState(1);
   const [loading, setLoading] = useState(false);
   const [streamText, setStreamText] = useState("");
+  const [hasTrackedStart, setHasTrackedStart] = useState(false);
   const [prefs, setPrefs] = useState<Partial<TripPreferences>>({
     groupSize: 2,
     budget: "mid",
@@ -60,6 +62,13 @@ export default function PlanPage() {
     historicalInterest: false,
     budgetSplurge: "",
   });
+
+  useEffect(() => {
+    if (step === 2 && !hasTrackedStart) {
+      trackPlanTripStart();
+      setHasTrackedStart(true);
+    }
+  }, [step, hasTrackedStart]);
 
   const update = (partial: Partial<TripPreferences>) =>
     setPrefs((p) => ({ ...p, ...partial }));
@@ -139,6 +148,12 @@ export default function PlanPage() {
           // Store raw string as fallback
           localStorage.setItem(`itinerary_${slugMatch[1]}`, full);
         }
+        // Track completion with trip details
+        trackPlanTripComplete({
+          duration: prefs.duration,
+          budget: prefs.budget,
+          groupType: prefs.groupType,
+        });
         router.push(`/plan/result/${slug}`);
       } else {
         setStreamText("❌ Could not parse itinerary. Please try again.");

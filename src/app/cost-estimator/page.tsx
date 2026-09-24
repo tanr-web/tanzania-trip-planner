@@ -4,13 +4,29 @@ import { useState, useMemo } from "react";
 import Link from "next/link";
 import { PARK_FEES, BUDGET_TIERS } from "@/lib/constants";
 
-const PARKS = Object.entries(PARK_FEES).map(([name, val]) => ({ name, fee: val.adult }));
+const PARK_NAMES: Record<string, string> = {
+  serengeti: "Serengeti NP",
+  ngorongoro: "Ngorongoro CA",
+  tarangire: "Tarangire NP",
+  "lake-manyara": "Lake Manyara NP",
+  "arusha-np": "Arusha NP",
+  "nyerere-selous": "Nyerere/Selous",
+  ruaha: "Ruaha NP",
+  kilimanjaro: "Kilimanjaro",
+  mikumi: "Mikumi NP",
+};
+
+const PARKS = Object.entries(PARK_FEES).map(([slug, val]) => ({
+  name: PARK_NAMES[slug] || slug,
+  slug,
+  fee: val.adult,
+}));
 
 export default function CostEstimatorPage() {
   const [days, setDays] = useState(7);
   const [people, setPeople] = useState(2);
   const [budgetTier, setBudgetTier] = useState<"budget" | "mid" | "luxury">("mid");
-  const [selectedParks, setSelectedParks] = useState<string[]>(["Serengeti NP", "Ngorongoro CA"]);
+  const [selectedParks, setSelectedParks] = useState<string[]>(["serengeti", "ngorongoro"]);
   const [includeZanzibar, setIncludeZanzibar] = useState(false);
   const [zanzibarDays, setZanzibarDays] = useState(3);
   const [includeKili, setIncludeKili] = useState(false);
@@ -21,8 +37,8 @@ export default function CostEstimatorPage() {
     const accommodation = tier.accommodationPerNight * days * people;
     const food = tier.foodPerDay * days * people;
     const internalFlights = days > 5 ? 350 * people : 0;
-    const parkFees = selectedParks.reduce((sum, park) => {
-      const p = PARKS.find((p) => p.name === park);
+    const parkFees = selectedParks.reduce((sum, parkSlug) => {
+      const p = PARKS.find((p) => p.slug === parkSlug);
       return sum + (p?.fee ?? 0) * days * 0.4; // avg visits per day
     }, 0) * people;
     const zanzibarCost = includeZanzibar
@@ -48,9 +64,9 @@ export default function CostEstimatorPage() {
     };
   }, [days, people, budgetTier, selectedParks, includeZanzibar, zanzibarDays, includeKili, tier]);
 
-  function togglePark(park: string) {
+  function togglePark(parkSlug: string) {
     setSelectedParks((prev) =>
-      prev.includes(park) ? prev.filter((p) => p !== park) : [...prev, park]
+      prev.includes(parkSlug) ? prev.filter((p) => p !== parkSlug) : [...prev, parkSlug]
     );
   }
 
@@ -78,11 +94,22 @@ export default function CostEstimatorPage() {
         <div className="lg:col-span-2 space-y-8">
           {/* Duration */}
           <div>
-            <label className="block font-semibold text-stone-800 mb-3">
+            <label htmlFor="duration-slider" className="block font-semibold text-stone-800 mb-3">
               Safari duration: <span className="text-amber-600">{days} nights</span>
             </label>
-            <input type="range" min={3} max={21} value={days} onChange={(e) => setDays(Number(e.target.value))}
-              className="w-full accent-amber-500" />
+            <input
+              id="duration-slider"
+              type="range"
+              min={3}
+              max={21}
+              value={days}
+              onChange={(e) => setDays(Number(e.target.value))}
+              className="w-full accent-amber-500"
+              aria-label="Safari duration in nights"
+              aria-valuenow={days}
+              aria-valuemin={3}
+              aria-valuemax={21}
+            />
             <div className="flex justify-between text-xs text-stone-400 mt-1">
               <span>3 nights</span><span>21 nights</span>
             </div>
@@ -90,11 +117,22 @@ export default function CostEstimatorPage() {
 
           {/* Group size */}
           <div>
-            <label className="block font-semibold text-stone-800 mb-3">
+            <label htmlFor="travellers-slider" className="block font-semibold text-stone-800 mb-3">
               Travellers: <span className="text-amber-600">{people} {people === 1 ? "person" : "people"}</span>
             </label>
-            <input type="range" min={1} max={8} value={people} onChange={(e) => setPeople(Number(e.target.value))}
-              className="w-full accent-amber-500" />
+            <input
+              id="travellers-slider"
+              type="range"
+              min={1}
+              max={8}
+              value={people}
+              onChange={(e) => setPeople(Number(e.target.value))}
+              className="w-full accent-amber-500"
+              aria-label="Number of travellers"
+              aria-valuenow={people}
+              aria-valuemin={1}
+              aria-valuemax={8}
+            />
             <div className="flex justify-between text-xs text-stone-400 mt-1">
               <span>1 person</span><span>8 people</span>
             </div>
@@ -110,6 +148,7 @@ export default function CostEstimatorPage() {
                   <button
                     key={t}
                     onClick={() => setBudgetTier(t)}
+                    aria-pressed={budgetTier === t}
                     className={`p-4 rounded-xl border-2 text-left transition-all ${
                       budgetTier === t ? "border-amber-400 bg-amber-50" : "border-stone-200 hover:border-stone-300"
                     }`}
@@ -128,10 +167,10 @@ export default function CostEstimatorPage() {
             <div className="flex flex-wrap gap-2">
               {PARKS.map((p) => (
                 <button
-                  key={p.name}
-                  onClick={() => togglePark(p.name)}
+                  key={p.slug}
+                  onClick={() => togglePark(p.slug)}
                   className={`px-3 py-1.5 rounded-full text-xs font-medium transition-colors ${
-                    selectedParks.includes(p.name)
+                    selectedParks.includes(p.slug)
                       ? "bg-amber-500 text-white"
                       : "bg-stone-100 text-stone-600 hover:bg-stone-200"
                   }`}

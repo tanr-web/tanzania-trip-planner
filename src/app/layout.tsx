@@ -23,12 +23,20 @@ export const metadata: Metadata = {
   },
   twitter: { card: "summary_large_image" },
   robots: { index: true, follow: true },
+  verification: {
+    google: "rht9wnyx8aOv7wiewIftVL8jflnUWK5E_cxblUW_bIE",
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={inter.variable}>
       <body className="font-sans antialiased bg-white text-stone-900">
+        {/* Skip to content link for accessibility */}
+        <a href="#main-content" className="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-50 focus:px-3 focus:py-2 focus:bg-amber-600 focus:text-white focus:rounded">
+          Skip to main content
+        </a>
+
         {/* Google Analytics */}
         {process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID && (
           <>
@@ -52,7 +60,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         )}
 
         <Header />
-        <main className="min-h-screen">{children}</main>
+        <main id="main-content" className="min-h-screen">{children}</main>
         <Footer />
       </body>
     </html>

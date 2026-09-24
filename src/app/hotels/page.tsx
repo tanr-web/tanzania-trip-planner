@@ -2,6 +2,7 @@ import { Metadata } from "next";
 import Link from "next/link";
 import { ExternalLink, Star, MapPin } from "lucide-react";
 import { getAllHotels } from "@/lib/sanity";
+import { SAMPLE_HOTELS } from "@/lib/hotel-database";
 import { getPriceLabel } from "@/lib/utils";
 import type { Hotel } from "@/types";
 
@@ -27,7 +28,28 @@ export default async function HotelsPage({
   try {
     hotels = await getAllHotels();
   } catch {
-    // Sanity not yet configured
+    // Fallback to sample hotels if Sanity not configured
+  }
+
+  // Use sample hotels if no Sanity data
+  const displayHotels = hotels.length > 0 ? hotels : (SAMPLE_HOTELS as unknown as Hotel[]);
+
+  // Filter by region if specified
+  let filtered = displayHotels;
+  if (params.region) {
+    filtered = filtered.filter((h) =>
+      (h.region?.name || "").toLowerCase().includes(params.region?.toLowerCase() || "")
+    );
+  }
+  if (params.budget) {
+    filtered = filtered.filter((h) =>
+      (h.priceRange || "").toLowerCase().includes(params.budget?.toLowerCase() || "")
+    );
+  }
+  if (params.type) {
+    filtered = filtered.filter((h) =>
+      (h.type || "").toLowerCase().replace(" ", "_") === params.type?.toLowerCase().replace(" ", "_")
+    );
   }
 
   return (
@@ -89,21 +111,24 @@ export default async function HotelsPage({
       </div>
 
       {/* Hotel grid or empty state */}
-      {hotels.length === 0 ? (
+      {filtered.length === 0 ? (
         <div className="text-center py-20">
           <div className="text-5xl mb-4">🏕️</div>
-          <h2 className="text-xl font-bold text-stone-800 mb-2">Hotels Coming Soon</h2>
-          <p className="text-stone-500 mb-6">We&apos;re curating 300+ hotels and lodges. Check back soon!</p>
-          <Link href="/plan" className="px-6 py-3 bg-amber-500 text-white font-semibold rounded-full hover:bg-amber-600 transition-colors">
-            Plan Your Trip Instead
+          <h2 className="text-xl font-bold text-stone-800 mb-2">No hotels found</h2>
+          <p className="text-stone-500 mb-6">Try adjusting your filters or browse all hotels.</p>
+          <Link href="/hotels" className="px-6 py-3 bg-amber-500 text-white font-semibold rounded-full hover:bg-amber-600 transition-colors">
+            View All Hotels
           </Link>
         </div>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {hotels.map((hotel) => (
-            <HotelCard key={hotel._id} hotel={hotel} />
-          ))}
-        </div>
+        <>
+          <p className="text-stone-600 mb-6">Showing {filtered.length} hotels and lodges</p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {filtered.map((hotel) => (
+              <HotelCard key={hotel._id || hotel.slug} hotel={hotel} />
+            ))}
+          </div>
+        </>
       )}
     </div>
   );

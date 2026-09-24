@@ -1,46 +1,49 @@
 import { NextRequest, NextResponse } from "next/server";
-import { Resend } from "resend";
+import { isValidEmail, sendWelcomeSequenceStart } from "@/lib/email-sequence";
 
 export async function POST(req: NextRequest) {
   const formData = await req.formData();
-  const email = formData.get("email")?.toString();
+  const email = formData.get("email")?.toString()?.toLowerCase().trim();
 
-  if (!email || !email.includes("@")) {
-    return NextResponse.redirect(new URL("/?newsletter=error", req.url));
+  // Validate email
+  if (!email || !isValidEmail(email)) {
+    return NextResponse.json(
+      { error: "Invalid email address" },
+      { status: 400 }
+    );
   }
 
   try {
-    // Send welcome email with packing list
-    if (!process.env.RESEND_API_KEY) {
-      return NextResponse.redirect(new URL("/?newsletter=success", req.url));
-    }
-    const resend = new Resend(process.env.RESEND_API_KEY);
-    await resend.emails.send({
-      from: process.env.RESEND_FROM_EMAIL ?? "hello@tanzaniatripplanner.com",
-      to: email,
-      subject: "Your Free Tanzania Packing List 🦁",
-      html: `
-        <h2>Welcome to Tanzania Trip Planner!</h2>
-        <p>Thanks for signing up. Your free Tanzania safari packing list is attached.</p>
-        <p>In the meantime, start planning your trip: <a href="https://tanzaniatripplanner.com/plan">Plan My Trip</a></p>
-        <br/>
-        <p><strong>Quick packing essentials:</strong></p>
-        <ul>
-          <li>✅ Neutral-coloured clothing (khaki, olive, beige)</li>
-          <li>✅ Wide-brimmed sun hat</li>
-          <li>✅ Quality binoculars</li>
-          <li>✅ Malaria prophylaxis (consult your doctor)</li>
-          <li>✅ Yellow Fever certificate (if required)</li>
-          <li>✅ Sunscreen SPF 50+</li>
-          <li>✅ Travel insurance (essential)</li>
-          <li>✅ Camera with telephoto lens</li>
-        </ul>
-        <p>Visit <a href="https://tanzaniatripplanner.com/packing-list">our full interactive packing list</a> for the complete guide.</p>
-      `,
-    });
-  } catch {
-    // Non-fatal
-  }
+    // Send welcome sequence
+    const result = await sendWelcomeSequenceStart(
+      email,
+      process.env.RESEND_API_KEY
+    );
 
-  return NextResponse.redirect(new URL("/?newsletter=success", req.url));
+    if (!result.success) {
+      console.error(`Newsletter signup failed for ${email}:`, result.error);
+      return NextResponse.json(
+        { error: "Failed to subscribe" },
+        { status: 500 }
+      );
+    }
+
+    // Log GA event (would be tracked client-side in real implementation)
+    console.log(`[Analytics] Newsletter signup: ${email}`);
+
+    // Store subscription timestamp in request for potential future logging
+    const signupTime = new Date().toISOString();
+    console.log(`[Newsletter] New subscriber: ${email} at ${signupTime}`);
+
+    return NextResponse.json({
+      success: true,
+      message: "Successfully subscribed to newsletter",
+    });
+  } catch (error) {
+    console.error("Newsletter signup error:", error);
+    return NextResponse.json(
+      { error: "An unexpected error occurred" },
+      { status: 500 }
+    );
+  }
 }

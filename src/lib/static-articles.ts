@@ -108,7 +108,7 @@ export const STATIC_ARTICLES: StaticArticle[] = [
     tags: ["kilimanjaro", "trekking", "adventure"],
     publishedAt: "2026-01-22T00:00:00Z",
     readingTime: 16,
-    heroImage: "https://images.unsplash.com/photo-1589308078059-be1415eab4c3?w=1200&q=80",
+    heroImage: "/images/blog/kilimanjaro-guide.jpg",
     bodyHtml: `
 <h2>Why Climb Kilimanjaro?</h2>
 <p>At 5,895 metres, Mount Kilimanjaro is Africa's highest peak and the world's tallest free-standing mountain. Unlike most high-altitude mountains, you don't need technical climbing skills — no ropes, no crampons, no ice axes. What you do need is preparation, patience, and the willingness to walk slowly. Very slowly.</p>
@@ -196,7 +196,7 @@ export const STATIC_ARTICLES: StaticArticle[] = [
     tags: ["zanzibar", "beaches", "culture"],
     publishedAt: "2026-02-01T00:00:00Z",
     readingTime: 12,
-    heroImage: "https://images.unsplash.com/photo-1547036967-23d11aacaee0?w=1200&q=80",
+    heroImage: "/images/blog/zanzibar-guide.jpg",
     bodyHtml: `
 <h2>Why Zanzibar is Worth Every Second</h2>
 <p>Zanzibar — or "The Spice Island" — is an archipelago off Tanzania's coast that feels like an entirely different world. After days of game drives in the dust, arriving on this Indian Ocean island and stepping onto a beach of powder-white sand and turquoise water is transformative. Most Tanzania travellers add 3–5 days at the end of their safari, and it becomes the highlight of the trip.</p>
@@ -278,7 +278,7 @@ export const STATIC_ARTICLES: StaticArticle[] = [
     tags: ["safari", "wildlife", "planning"],
     publishedAt: "2026-02-08T00:00:00Z",
     readingTime: 10,
-    heroImage: "https://images.unsplash.com/photo-1534188753412-3e26d0d618d6?w=1200&q=80",
+    heroImage: "/images/blog/best-time-to-visit.jpg",
     bodyHtml: `
 <h2>Tanzania's Two Seasons</h2>
 <p>Tanzania essentially has two seasons that matter for safari planning: <strong>dry season</strong> (June–October) and <strong>wet season</strong> (November–May, with two distinct rainy periods). Both have their merits, and neither is truly "bad" for wildlife.</p>
@@ -344,7 +344,7 @@ export const STATIC_ARTICLES: StaticArticle[] = [
     tags: ["budget", "safari", "planning"],
     publishedAt: "2026-02-15T00:00:00Z",
     readingTime: 11,
-    heroImage: "https://images.unsplash.com/photo-1547970810-dc1eac37d174?w=1200&q=80",
+    heroImage: "/images/blog/safari-budget.jpg",
     bodyHtml: `
 <h2>Is a Budget Tanzania Safari Possible?</h2>
 <p>Honest answer: Tanzania is not the cheapest safari destination in Africa. Park fees alone in Serengeti cost $70 per person per day. But with the right strategies, you can experience world-class wildlife for $150–$200 per person per day — a fraction of what most operators charge. Here's exactly how.</p>
@@ -421,7 +421,7 @@ export const STATIC_ARTICLES: StaticArticle[] = [
     tags: ["wildlife", "safari", "serengeti"],
     publishedAt: "2026-02-20T00:00:00Z",
     readingTime: 9,
-    heroImage: "https://images.unsplash.com/photo-1516426122078-c23e76319801?w=1200&q=80",
+    heroImage: "/images/blog/great-migration.jpg",
     bodyHtml: `
 <h2>What is the Great Migration?</h2>
 <p>The Great Wildebeest Migration is the largest overland animal movement on Earth — approximately 1.5 million wildebeest, 400,000 zebra, and 200,000 gazelle moving in a continuous circular loop across Tanzania's Serengeti and Kenya's Masai Mara. It's driven entirely by rainfall and grass growth. The herd follows the rains, always seeking fresh grazing.</p>
@@ -484,7 +484,7 @@ export const STATIC_ARTICLES: StaticArticle[] = [
     tags: ["safari", "wildlife", "ngorongoro"],
     publishedAt: "2026-02-25T00:00:00Z",
     readingTime: 8,
-    heroImage: "https://images.unsplash.com/photo-1523805009345-7448845a9e53?w=1200&q=80",
+    heroImage: "/images/blog/ngorongoro-crater.jpg",
     bodyHtml: `
 <h2>What is Ngorongoro Crater?</h2>
 <p>About 3 million years ago, a massive volcano in what is now northern Tanzania erupted and then collapsed inward, forming a caldera — an enclosed basin — roughly 260 square kilometres in area and 600 metres deep. Over millennia, this natural enclosure filled with wildlife. Today it holds one of the densest concentrations of animals on Earth.</p>
@@ -557,7 +557,7 @@ export const STATIC_ARTICLES: StaticArticle[] = [
     tags: ["family", "safari", "planning"],
     publishedAt: "2026-03-01T00:00:00Z",
     readingTime: 10,
-    heroImage: "https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?w=1200&q=80",
+    heroImage: "/images/blog/tanzania-families.jpg",
     bodyHtml: `
 <h2>Is Tanzania Safe for Kids?</h2>
 <p>Yes — and children often have more profound reactions to wildlife than adults. Seeing a lion 10 metres away through a pop-up roof creates wonder that doesn't fade. Tanzania is very welcoming to families, and many camps actively cater to children with dedicated programmes.</p>
@@ -633,7 +633,7 @@ export const STATIC_ARTICLES: StaticArticle[] = [
     tags: ["photography", "safari", "wildlife"],
     publishedAt: "2026-03-01T00:00:00Z",
     readingTime: 11,
-    heroImage: "https://images.unsplash.com/photo-1516426122078-c23e76319801?w=1200&q=80",
+    heroImage: "/images/blog/tanzania-photography.jpg",
     bodyHtml: `
 <h2>Tanzania: A Photographer's Paradise</h2>
 <p>The Serengeti, Ngorongoro, and Tarangire offer some of the finest wildlife photography opportunities anywhere on Earth. Open landscapes, abundant wildlife, and extraordinary light — especially at dawn and dusk — create conditions that professional photographers travel the world for. With the right gear, technique, and positioning, you'll capture images that look impossible.</p>

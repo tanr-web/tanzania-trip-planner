@@ -1,8 +1,9 @@
 import { Metadata } from "next";
 import Link from "next/link";
-import { MapPin, ArrowRight } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { getAllRegions } from "@/lib/sanity";
 import { REGIONS } from "@/lib/constants";
+import DestinationLink from "@/components/destinations/DestinationLink";
 import type { Region } from "@/types";
 
 export const revalidate = 86400;
@@ -12,17 +13,6 @@ export const metadata: Metadata = {
   description:
     "Explore Tanzania's iconic destinations: Serengeti National Park, Ngorongoro Crater, Zanzibar, Kilimanjaro, Tarangire, and more. Find the perfect region for your safari.",
   alternates: { canonical: "/destinations" },
-};
-
-const REGION_EMOJIS: Record<string, string> = {
-  serengeti: "🦁",
-  ngorongoro: "🌋",
-  zanzibar: "🏝️",
-  kilimanjaro: "⛰️",
-  tarangire: "🐘",
-  "lake-manyara": "🦩",
-  ruaha: "🌿",
-  selous: "🐊",
 };
 
 export default async function DestinationsPage() {
@@ -50,39 +40,9 @@ export default async function DestinationsPage() {
       </p>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        {displayRegions.map((r) => {
-          const emojiKey = r.slug?.toLowerCase();
-          const emoji = REGION_EMOJIS[emojiKey] ?? "🌍";
-
-          return (
-            <Link
-              key={r._id ?? r.slug}
-              href={`/destinations/${r.slug}`}
-              className="group block bg-white rounded-2xl border border-stone-200 hover:shadow-xl transition-shadow overflow-hidden"
-            >
-              <div className="h-44 bg-gradient-to-br from-amber-50 to-stone-200 flex items-center justify-center text-6xl">
-                {emoji}
-              </div>
-              <div className="p-5">
-                <h2 className="font-bold text-stone-800 text-lg group-hover:text-amber-700 transition-colors mb-2">
-                  {r.name}
-                </h2>
-                {typeof r.description === "string" && r.description && (
-                  <p className="text-stone-500 text-sm leading-relaxed line-clamp-2 mb-4">{r.description}</p>
-                )}
-                {r.bestMonths?.length > 0 && (
-                  <div className="flex items-center gap-1.5 text-xs text-stone-400 mb-4">
-                    <MapPin className="w-3 h-3" />
-                    Best: {Array.isArray(r.bestMonths) ? r.bestMonths.join(", ") : r.bestMonths}
-                  </div>
-                )}
-                <div className="flex items-center gap-1 text-amber-600 text-sm font-medium group-hover:gap-2 transition-all">
-                  Explore {r.name} <ArrowRight className="w-4 h-4" />
-                </div>
-              </div>
-            </Link>
-          );
-        })}
+        {displayRegions.map((r) => (
+          <DestinationLink key={r._id ?? r.slug} region={r} />
+        ))}
       </div>
 
       {/* Map teaser */}

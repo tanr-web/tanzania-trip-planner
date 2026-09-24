@@ -1,9 +1,12 @@
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { ArrowLeft, MapPin } from "lucide-react";
+import Script from "next/script";
+import { ArrowLeft, MapPin, Clock, Backpack } from "lucide-react";
 import { getRegion, getAllRegionSlugs, getHotelsByRegion, getArticlesByRegion } from "@/lib/sanity";
 import { REGIONS } from "@/lib/constants";
+import { getDestinationGuide } from "@/lib/destination-guides";
+import { createTouristDestinationSchema, getSchemaScript } from "@/lib/schema-org";
 import type { Region, Hotel, Article } from "@/types";
 
 export const revalidate = 86400;
@@ -63,9 +66,25 @@ export default async function RegionDetailPage({ params }: Props) {
   }
 
   const staticR = REGIONS.find((r) => r.slug === slug);
+  const guide = getDestinationGuide(slug);
+  const destSchema = createTouristDestinationSchema(
+    {
+      name: regionData.name,
+      description: typeof regionData.description === "string" ? regionData.description : guide?.overview || regionData.name,
+      lat: staticR?.mapCenter?.lat,
+      lng: staticR?.mapCenter?.lng,
+    },
+    process.env.NEXT_PUBLIC_SITE_URL ?? "https://tanzaniatripplanner.com",
+    slug
+  );
 
   return (
     <div className="max-w-5xl mx-auto px-4 sm:px-6 py-10">
+      <Script
+        id={`destination-schema-${slug}`}
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: getSchemaScript(destSchema) }}
+      />
       <Link href="/destinations" className="inline-flex items-center gap-2 text-stone-500 hover:text-amber-600 text-sm mb-8 transition-colors">
         <ArrowLeft className="w-4 h-4" />All Destinations
       </Link>
@@ -88,7 +107,77 @@ export default async function RegionDetailPage({ params }: Props) {
         <p className="text-stone-600 leading-relaxed mb-8 max-w-3xl">{regionData.description}</p>
       )}
 
-      {/* Highlights if from static data */}
+      {/* Guide content if available */}
+      {guide && (
+        <>
+          <p className="text-stone-600 leading-relaxed mb-8 max-w-3xl">{guide.overview}</p>
+
+          {/* Highlights */}
+          <section className="mb-10">
+            <h2 className="text-2xl font-bold text-stone-800 mb-4">Highlights</h2>
+            <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              {guide.highlights.map((highlight, i) => (
+                <li key={i} className="flex gap-3 text-stone-600">
+                  <span className="text-amber-600 font-bold">★</span>
+                  <span>{highlight}</span>
+                </li>
+              ))}
+            </ul>
+          </section>
+
+          {/* Key Info Cards */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-10">
+            <div className="bg-amber-50 rounded-xl p-4 border border-amber-100">
+              <div className="flex items-center gap-2 mb-2 text-amber-900">
+                <Clock className="w-5 h-5" />
+                <h3 className="font-semibold">Best Time to Visit</h3>
+              </div>
+              <p className="text-sm text-stone-600">{guide.bestTime}</p>
+            </div>
+            <div className="bg-amber-50 rounded-xl p-4 border border-amber-100">
+              <div className="flex items-center gap-2 mb-2 text-amber-900">
+                <Backpack className="w-5 h-5" />
+                <h3 className="font-semibold">Accommodation</h3>
+              </div>
+              <p className="text-sm text-stone-600">{guide.accommodation}</p>
+            </div>
+          </div>
+
+          {/* Activities */}
+          <section className="mb-10">
+            <h2 className="text-2xl font-bold text-stone-800 mb-4">Activities & Experiences</h2>
+            <ul className="space-y-2">
+              {guide.activities.map((activity, i) => (
+                <li key={i} className="flex gap-3 text-stone-600">
+                  <span className="text-amber-600">●</span>
+                  <span>{activity}</span>
+                </li>
+              ))}
+            </ul>
+          </section>
+
+          {/* Getting There */}
+          <section className="bg-stone-50 rounded-2xl p-6 mb-10">
+            <h3 className="text-lg font-bold text-stone-800 mb-3">Getting There</h3>
+            <p className="text-stone-600">{guide.gettingThere}</p>
+          </section>
+
+          {/* Tips */}
+          <section className="mb-10">
+            <h2 className="text-2xl font-bold text-stone-800 mb-4">Pro Tips</h2>
+            <ul className="space-y-2">
+              {guide.tips.map((tip, i) => (
+                <li key={i} className="flex gap-3 text-stone-600">
+                  <span className="text-amber-600">💡</span>
+                  <span>{tip}</span>
+                </li>
+              ))}
+            </ul>
+          </section>
+        </>
+      )}
+
+      {/* Coordinates if from static data */}
       {staticR?.mapCenter && (
         <div className="bg-amber-50 rounded-2xl p-4 text-sm text-stone-600 mb-8">
           <strong>📍 Coordinates:</strong> {staticR.mapCenter.lat}°N, {staticR.mapCenter.lng}°E

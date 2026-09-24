@@ -24,11 +24,14 @@ export default function MigrationCalendarPage() {
       </p>
 
       {/* Month tabs */}
-      <div className="flex overflow-x-auto gap-1 mb-8 pb-2 -mx-1 px-1">
+      <div className="flex overflow-x-auto gap-1 mb-8 pb-2 -mx-1 px-1" role="tablist" aria-label="Select month">
         {MONTHS.map((m, i) => (
           <button
             key={m}
             onClick={() => setActiveMonth(i)}
+            role="tab"
+            aria-selected={activeMonth === i}
+            aria-label={m}
             className={`flex-shrink-0 px-4 py-2 rounded-full text-sm font-medium transition-colors ${
               activeMonth === i
                 ? "bg-amber-500 text-white shadow-sm"
@@ -128,6 +131,7 @@ export default function MigrationCalendarPage() {
               <button
                 key={m}
                 onClick={() => setActiveMonth(i)}
+                aria-label={`${m}${s?.avoid ? " - Rainy season" : " - Good season"}`}
                 className={`text-left p-4 rounded-xl border transition-all cursor-pointer ${
                   activeMonth === i
                     ? "border-amber-400 bg-amber-50"

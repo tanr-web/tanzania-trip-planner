@@ -1,19 +1,22 @@
 import Link from "next/link";
 import Image from "next/image";
+import Script from "next/script";
 import { ArrowRight, Star, Zap, MapPin, BookOpen } from "lucide-react";
 import { SEASONAL_CALENDAR } from "@/lib/constants";
 import { getLatestArticles } from "@/lib/sanity";
 import { formatDate } from "@/lib/utils";
+import { createOrganizationSchema, getSchemaScript } from "@/lib/schema-org";
+import HeroCTA from "@/components/home/HeroCTA";
 
 export const revalidate = 86400;
 
 const featuredRegions = [
-  { name: "Serengeti", slug: "serengeti", tagline: "The Great Migration", image: "https://images.unsplash.com/photo-1516426122078-c23e76319801?w=600&q=80", bestTime: "Jun–Oct" },
-  { name: "Zanzibar", slug: "zanzibar", tagline: "Pristine Beaches", image: "https://images.unsplash.com/photo-1547036967-23d11aacaee0?w=600&q=80", bestTime: "Jun–Oct" },
-  { name: "Ngorongoro", slug: "ngorongoro", tagline: "The Eighth Wonder", image: "https://images.unsplash.com/photo-1523805009345-7448845a9e53?w=600&q=80", bestTime: "Year-round" },
-  { name: "Kilimanjaro", slug: "kilimanjaro", tagline: "Roof of Africa", image: "https://images.unsplash.com/photo-1589308078059-be1415eab4c3?w=600&q=80", bestTime: "Jan–Feb, Jun–Oct" },
-  { name: "Tarangire", slug: "tarangire", tagline: "Land of Giants", image: "https://images.unsplash.com/photo-1547970810-dc1eac37d174?w=600&q=80", bestTime: "Jun–Oct" },
-  { name: "Mafia Island", slug: "mafia-island", tagline: "Diving Paradise", image: "https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?w=600&q=80", bestTime: "Oct–Feb" },
+  { name: "Serengeti", slug: "serengeti", tagline: "The Great Migration", image: "/images/destinations/serengeti.jpg", bestTime: "Jun–Oct" },
+  { name: "Zanzibar", slug: "zanzibar", tagline: "Pristine Beaches", image: "/images/destinations/zanzibar.jpg", bestTime: "Jun–Oct" },
+  { name: "Ngorongoro", slug: "ngorongoro", tagline: "The Eighth Wonder", image: "/images/destinations/ngorongoro.jpg", bestTime: "Year-round" },
+  { name: "Kilimanjaro", slug: "kilimanjaro", tagline: "Roof of Africa", image: "/images/destinations/kilimanjaro.jpg", bestTime: "Jan–Feb, Jun–Oct" },
+  { name: "Tarangire", slug: "tarangire", tagline: "Land of Giants", image: "/images/destinations/tarangire.jpg", bestTime: "Jun–Oct" },
+  { name: "Mafia Island", slug: "mafia-island", tagline: "Diving Paradise", image: "/images/destinations/mafia-island.jpg", bestTime: "Oct–Feb" },
 ];
 
 export default async function HomePage() {
@@ -26,12 +29,20 @@ export default async function HomePage() {
     // Sanity not yet configured — silently skip
   }
 
+  const orgSchema = createOrganizationSchema(process.env.NEXT_PUBLIC_SITE_URL ?? "https://tanzaniatripplanner.com");
+
   return (
     <div>
+      <Script
+        id="org-schema"
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: getSchemaScript(orgSchema) }}
+      />
+
       {/* ── Hero ────────────────────────────────────────────────────── */}
       <section className="relative min-h-[92vh] flex items-center justify-center overflow-hidden">
         <Image
-          src="https://images.unsplash.com/photo-1516426122078-c23e76319801?w=1600&q=80"
+          src="/images/hero/serengeti.jpg"
           alt="Serengeti at sunrise with wildebeest"
           fill
           priority
@@ -49,20 +60,7 @@ export default async function HomePage() {
             AI-powered itineraries. Handpicked hotels. Real local insight.
             From the Serengeti to Zanzibar&apos;s white sands.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link
-              href="/plan"
-              className="inline-flex items-center gap-2 px-8 py-4 rounded-full bg-amber-500 hover:bg-amber-400 text-white font-bold text-lg transition-all shadow-xl hover:scale-105"
-            >
-              Plan My Trip <ArrowRight className="w-5 h-5" />
-            </Link>
-            <Link
-              href="/destinations"
-              className="inline-flex items-center gap-2 px-8 py-4 rounded-full bg-white/20 hover:bg-white/30 backdrop-blur-sm text-white font-semibold text-lg transition-all border border-white/30"
-            >
-              Explore Destinations
-            </Link>
-          </div>
+          <HeroCTA />
         </div>
       </section>
 

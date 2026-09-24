@@ -2,6 +2,7 @@ import { Metadata } from "next";
 import Link from "next/link";
 import { MapPin, Clock, Leaf } from "lucide-react";
 import { getAllRestaurants } from "@/lib/sanity";
+import { SAMPLE_RESTAURANTS } from "@/lib/restaurant-database";
 import { getPriceLabel } from "@/lib/utils";
 import type { Restaurant } from "@/types";
 
@@ -25,11 +26,28 @@ export default async function RestaurantsPage({
 
   try {
     restaurants = await getAllRestaurants();
-    if (region && region !== "All") restaurants = restaurants.filter((r) => r.region?.name?.toLowerCase().replace(" ", "-") === region);
-    if (cuisine && cuisine !== "All") restaurants = restaurants.filter((r) => r.cuisine === cuisine);
-    if (atmosphere && atmosphere !== "All") restaurants = restaurants.filter((r) => r.atmosphere === atmosphere);
   } catch {
-    // Sanity not configured yet — render empty state
+    // Fallback to sample restaurants if Sanity not configured
+  }
+
+  // Use sample restaurants if no Sanity data
+  let displayRestaurants = restaurants.length > 0 ? restaurants : (SAMPLE_RESTAURANTS as unknown as Restaurant[]);
+
+  // Apply filters
+  if (region && region !== "All") {
+    displayRestaurants = displayRestaurants.filter((r) =>
+      (r.region?.name || "").toLowerCase().replace(" ", "-") === region
+    );
+  }
+  if (cuisine && cuisine !== "All") {
+    displayRestaurants = displayRestaurants.filter((r) =>
+      Array.isArray(r.cuisine) ? r.cuisine.includes(cuisine) : r.cuisine === cuisine
+    );
+  }
+  if (atmosphere && atmosphere !== "All") {
+    displayRestaurants = displayRestaurants.filter((r) =>
+      (r.atmosphere || "").toLowerCase().replace(" ", "_") === atmosphere.toLowerCase().replace(" ", "_")
+    );
   }
 
   function filterLink(key: string, value: string) {
@@ -92,21 +110,24 @@ export default async function RestaurantsPage({
         </div>
       </div>
 
-      {restaurants.length === 0 ? (
+      {displayRestaurants.length === 0 ? (
         <div className="text-center py-24">
           <div className="text-6xl mb-4">🍽️</div>
-          <h2 className="text-xl font-bold text-stone-700 mb-2">Restaurants coming soon</h2>
-          <p className="text-stone-500 mb-6">We&apos;re curating the best dining spots in Tanzania. Check back soon!</p>
-          <Link href="/plan" className="inline-flex items-center gap-2 px-6 py-3 bg-amber-500 hover:bg-amber-600 text-white font-semibold rounded-full transition-colors">
-            Plan Your Trip Instead →
+          <h2 className="text-xl font-bold text-stone-700 mb-2">No restaurants found</h2>
+          <p className="text-stone-500 mb-6">Try adjusting your filters or browse all restaurants.</p>
+          <Link href="/restaurants" className="inline-flex items-center gap-2 px-6 py-3 bg-amber-500 hover:bg-amber-600 text-white font-semibold rounded-full transition-colors">
+            View All Restaurants →
           </Link>
         </div>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {restaurants.map((r) => (
-            <RestaurantCard key={r._id} restaurant={r} />
-          ))}
-        </div>
+        <>
+          <p className="text-stone-600 mb-6">Showing {displayRestaurants.length} restaurants</p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {displayRestaurants.map((r) => (
+              <RestaurantCard key={r._id || r.slug} restaurant={r} />
+            ))}
+          </div>
+        </>
       )}
     </div>
   );

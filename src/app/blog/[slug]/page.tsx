@@ -1,10 +1,12 @@
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
+import Script from "next/script";
 import { Clock, Calendar, Tag, ArrowLeft } from "lucide-react";
 import { getArticle, getAllArticleSlugs } from "@/lib/sanity";
 import { getStaticArticle, getAllStaticArticles, StaticArticle } from "@/lib/static-articles";
 import { formatDate } from "@/lib/utils";
+import { createBlogPostingSchema, getSchemaScript } from "@/lib/schema-org";
 import type { Article } from "@/types";
 
 export const revalidate = 86400;
@@ -90,26 +92,25 @@ export default async function BlogPostPage({ params }: Props) {
   const a = sanityArticle ?? staticArticle!;
   const isStatic = !sanityArticle && !!staticArticle;
 
-  const jsonLd = {
-    "@context": "https://schema.org",
-    "@type": "Article",
-    headline: isStatic ? staticArticle!.seoTitle : (sanityArticle!.seoTitle ?? sanityArticle!.title),
-    description: isStatic ? staticArticle!.seoDescription : (sanityArticle!.seoDescription ?? sanityArticle!.excerpt),
-    author: { "@type": "Organization", name: "Tanzania Trip Planner" },
-    publisher: {
-      "@type": "Organization",
-      name: "Tanzania Trip Planner",
-      url: "https://tanzaniatripplanner.com",
+  const blogSchema = createBlogPostingSchema(
+    {
+      title: isStatic ? staticArticle!.seoTitle : (sanityArticle!.seoTitle ?? sanityArticle!.title),
+      slug,
+      description: isStatic ? staticArticle!.seoDescription : (sanityArticle!.seoDescription ?? sanityArticle!.excerpt),
+      publishedAt: a.publishedAt,
+      readingTime: a.readingTime,
+      heroImage: isStatic ? staticArticle!.heroImage : undefined,
     },
-    datePublished: a.publishedAt,
-    dateModified: a.publishedAt,
-    ...(isStatic && { image: staticArticle!.heroImage }),
-    mainEntityOfPage: { "@type": "WebPage", "@id": `https://tanzaniatripplanner.com/blog/${slug}` },
-  };
+    process.env.NEXT_PUBLIC_SITE_URL ?? "https://tanzaniatripplanner.com"
+  );
 
   return (
     <>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+      <Script
+        id={`blog-schema-${slug}`}
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: getSchemaScript(blogSchema) }}
+      />
       <article className="max-w-3xl mx-auto px-4 sm:px-6 py-10">
         {/* Back link */}
         <Link href="/blog" className="inline-flex items-center gap-2 text-stone-500 hover:text-amber-600 text-sm mb-8 transition-colors">
